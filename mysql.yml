@@ -1,0 +1,23 @@
+---
+- hosts: sso
+  vars:
+  - db_password: welcome1
+  become: yes
+  tasks:
+  - name: Install MariaDB
+    package: name="{{ item }}" state=present
+    with_items:
+    - mariadb-server
+    - MySQL-python
+  - name: Start MariaDB
+    service: name=mariadb state=started
+  - name: Create keycloak database
+    mysql_db:
+      name: keycloak
+      state: present
+  - name: Create user keycloak and grant permissions
+    mysql_user:
+      name: keycloak
+      password: "{{ db_password }}"
+      priv: 'keycloak.*:ALL'
+      state: present

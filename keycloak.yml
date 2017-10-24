@@ -1,0 +1,87 @@
+---
+- hosts: keycloak
+  vars:
+    java_version: 1.8.0
+    jdbc_connector_version: 5.1.44
+    keycloak_version: 3.3.0.CR2
+    keycloak_install_dir: /opt/keycloak
+    keycloak_log_dir: /var/log/keycloak
+  tasks:
+  - name: Install Apache
+    yum: name=httpd state=latest
+    become: yes
+  - name: Start and Enable Apache
+    service: name=httpd state=started enabled=yes
+    become: yes
+  - name: Install Java
+    yum: name=java-{{ java_version }}-openjdk
+    become: yes
+  - name: Create user for Keycloak
+    user:
+      name: keycloak
+    become: yes
+  - name: Download Keycloak
+    get_url:
+      url: https://downloads.jboss.org/keycloak/3.3.0.CR2/keycloak-{{keycloak_version}}.tar.gz
+      dest: /tmp/keycloak.tar.gz
+  - name: Create Installation and Log Directory for Keycloak
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: keycloak
+    with_items:
+        - "{{ keycloak_install_dir }}"
+        - "{{ keycloak_log_dir }}"
+    become: yes
+  - name: Install Keycloak
+    unarchive:
+      src: /tmp/keycloak.tar.gz
+      dest: "{{ keycloak_install_dir }}"
+      remote_src: yes
+    become: yes
+  - name: Make sure data directory is writable
+    file:
+      path: "{{ keycloak_install_dir }}/keycloak-{{ keycloak_version }}"
+      owner: keycloak
+      state: directory
+      recurse: yes
+    become: yes
+  - name: Configure Keycloak
+    template:
+      src: files/standalone-ha.xml.j2
+      dest: "{{ keycloak_install_dir }}/keycloak-{{ keycloak_version }}/standalone/configuration/standalone-ha.xml"
+      owner: keycloak
+    become: yes
+  - name: Configure Keycloak Service
+    template:
+      src: files/keycloak.service.j2
+      dest: /etc/systemd/system/keycloak.service
+    become: yes
+    notify:
+      - keycloak_restart
+  - name: Enable and Start Keycloak
+    service: name=keycloak state=started enabled=yes
+    become: yes
+  - name: Allow Apache to connect to Keycloak
+    seboolean:
+      name: httpd_can_network_relay
+      state: yes
+      persistent: yes
+  # - name: Configure Apache Proxy
+  #   template:
+  #     src: /files/auth.conf.j2
+  #     dest: /etc/httpd/conf.d/auth.conf
+  #   notify:
+  #   - restart apache
+  - name: Download JDBC connector for MySQL
+    get_url:
+      url: "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-{{ jdbc_connector_version }}.tar.gz"
+      dest: /tmp/mysql-connector-java.tar.gz
+  # TODO(knikolla): Unarchive and install JDBC connector and connect it
+  handlers:
+    - name: httpd_restart
+      service: name=httpd state=restarted
+      become: yes
+    - name: keycloak_restart
+      service: name=keycloak state=restarted
+      become: yes
