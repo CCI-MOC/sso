@@ -1,0 +1,25 @@
+---
+- hosts: sso
+  become: yes
+  tasks:
+  - name: Install Docker-Py
+    package: name=python-docker-py state=present
+  - name: Start Docker
+    service: name=docker state=started
+  - name: Pull the Keycloak image
+    docker_image:
+      name: jboss/keycloak
+  - name: Re-create a redis container
+    docker_container:
+      name: keycloak
+      image: jboss/keycloak
+      state: started
+      recreate: yes
+      network_mode: host
+      env:
+        PROXY_ADDRESS_FORWARDING: true
+        MYSQL_DATABASE: keycloak
+        MYSQL_USER: keycloak
+        MYSQL_PASSWORD: welcome1
+        MYSQL_PORT_3306_TCP_ADDR: localhost
+        MYSQL_PORT_3306_TCP_PORT: 3306
