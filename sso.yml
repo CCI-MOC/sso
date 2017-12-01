@@ -1,25 +1,74 @@
 ---
 - hosts: sso
   become: yes
+
+  vars:
+    - db_password: ""
+    - password: ""
+
   tasks:
-  - name: Install Docker-Py
-    package: name=python-docker-py state=present
-  - name: Start Docker
-    service: name=docker state=started
+  - name: Install packages
+    package: name="{{ item }}" state=present
+    with_items:
+    - docker
+    - python-docker-py
+    - httpd
+    - mod_ssl
+    - openssl
+
+  - name: Allow Apache to connect to Keycloak
+    seboolean:
+      name: httpd_can_network_relay
+      state: yes
+      persistent: yes
+
+  - name: Configure Apache Proxy
+    copy:
+      src: files/ssl
+      dest: /etc/httpd/
+
+  - name: Configure Apache SSL
+    template:
+      src: files/ssl.conf.j2
+      dest: /etc/httpd/conf.d/ssl.conf
+    notify:
+    - httpd_restart
+
+  - name: Configure Apache Proxy
+    template:
+      src: files/sso.conf.j2
+      dest: /etc/httpd/conf.d/sso.conf
+    notify:
+    - httpd_restart
+
+  - name: Start services
+    service: name="{{ item }}" state=started
+    with_items:
+    - docker
+    - httpd
+
   - name: Pull the Keycloak image
     docker_image:
       name: jboss/keycloak
-  - name: Re-create a redis container
+
+  - name: Re-create a keycloak container
     docker_container:
       name: keycloak
       image: jboss/keycloak
       state: started
-      recreate: yes
+      recreate: no
       network_mode: host
       env:
         PROXY_ADDRESS_FORWARDING: true
         MYSQL_DATABASE: keycloak
         MYSQL_USER: keycloak
-        MYSQL_PASSWORD: welcome1
-        MYSQL_PORT_3306_TCP_ADDR: localhost
+        MYSQL_PASSWORD: "{{ db_password }}"
+        MYSQL_PORT_3306_TCP_ADDR: "127.0.0.1"
         MYSQL_PORT_3306_TCP_PORT: 3306
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: "{{ password }}"
+
+  handlers:
+  - name: httpd_restart
+    service: name=httpd state=restarted
+    become: yes
