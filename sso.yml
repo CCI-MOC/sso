@@ -54,7 +54,10 @@
       state: started
       recreate: no
       network_mode: host
-      command: "--server-config=standalone-ha.xml"
+      command: >
+        --server-config=standalone-ha.xml \
+        -b {{ ansible_tapsso.ipv4.address }} \
+        -Djboss.bind.address.private="{{ ansible_tapsso.ipv4.address }}"
       env:
         PROXY_ADDRESS_FORWARDING: true
         MYSQL_DATABASE: keycloak
