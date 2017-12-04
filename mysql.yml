@@ -1,7 +1,5 @@
 ---
 - hosts: sso
-  vars:
-  - db_password: ""
   become: yes
   tasks:
   - name: Install MariaDB

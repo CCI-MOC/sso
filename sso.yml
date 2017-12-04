@@ -2,10 +2,6 @@
 - hosts: sso
   become: yes
 
-  vars:
-    - db_password: ""
-    - password: ""
-
   tasks:
   - name: Install packages
     package: name="{{ item }}" state=present
@@ -58,6 +54,7 @@
       state: started
       recreate: no
       network_mode: host
+      command: "--server-config=standalone-ha.xml"
       env:
         PROXY_ADDRESS_FORWARDING: true
         MYSQL_DATABASE: keycloak
