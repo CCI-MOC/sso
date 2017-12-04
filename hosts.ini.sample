@@ -1,0 +1,7 @@
+[sso]
+192.168.0.1 ansible_user=centos
+192.168.0.2 ansible_user=centos
+
+[sso:vars]
+db_password="DB PASS"
+password="KEYCLOAK ADMIN PASS"
