@@ -56,7 +56,7 @@
       network_mode: host
       command: >
         --server-config=standalone-ha.xml \
-        -b {{ ansible_tapsso.ipv4.address }} \
+        -b 0.0.0.0 \
         -Djboss.bind.address.private="{{ ansible_tapsso.ipv4.address }}"
       env:
         PROXY_ADDRESS_FORWARDING: true
