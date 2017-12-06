@@ -52,7 +52,7 @@
       name: keycloak
       image: jboss/keycloak
       state: started
-      recreate: no
+      recreate: yes
       network_mode: host
       command: >
         --server-config=standalone-ha.xml \

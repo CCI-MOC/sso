@@ -1,0 +1,13 @@
+SetEnv SIMPLESAMLPHP_CONFIG_DIR /var/simplesamlphp-{{ simplesamlphp_version }}/config
+
+Alias /incommon/bridge /var/simplesamlphp-{{ simplesamlphp_version }}/www
+
+<Directory /var/simplesamlphp-{{ simplesamlphp_version }}/www>
+    Require all granted
+</Directory>
+
+<Location /incommon/bridge>
+  AuthType shibboleth
+  ShibRequestSetting requireSession 1
+  require shib-session
+</Location>

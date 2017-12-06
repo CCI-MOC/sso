@@ -1,0 +1,72 @@
+---
+- hosts: sso
+  become: yes
+
+  tasks:
+  # - name: Install PHP
+  #   package: name="{{ item }}" state=present
+  #   with_items:
+  #   - php
+  #   - php-openssl
+  #   - php-mbstring
+  #   - php-json
+  #   - php-hash
+  #   - php-date
+  #   - php-dom
+  #   - php-pcre
+  #   - php-zlib
+  #   notify:
+  #   - httpd_restart
+
+  - name: Install simpleSAMLphp
+    unarchive:
+      src: "https://github.com/simplesamlphp/simplesamlphp/releases/download/v{{ simplesamlphp_version }}/simplesamlphp-{{ simplesamlphp_version }}.tar.gz"
+      dest: /var/
+      remote_src: yes
+      creates: "/var/simplesamlphp-{{ simplesamlphp_version }}"
+
+  - name: Set context on simpleSAMLphp
+    file:
+      path: "/var/simplesamlphp-{{ simplesamlphp_version }}"
+      setype: httpd_sys_content_t
+      recurse: yes
+    notify:
+    - httpd_restart
+
+  - name: Enable example auth methods
+    file:
+      path: "/var/simplesamlphp-{{ simplesamlphp_version }}/modules/exampleauth/enable"
+      state: touch
+      setype: httpd_sys_content_t
+
+  - name: Configure SimpleSAMLphp
+    copy:
+      src: files/simplesaml/config.php
+      dest: "/var/simplesamlphp-{{ simplesamlphp_version }}/config/config.php"
+
+  - name: Configure SimpleSAMLphp Auth
+    copy:
+      src: files/simplesaml/authsources.php
+      dest: "/var/simplesamlphp-{{ simplesamlphp_version }}/config/authsources.php"
+
+  - name: Configure SimpleSAMLphp IdP
+    copy:
+      src: files/simplesaml/saml20-idp-hosted.php
+      dest: "/var/simplesamlphp-{{ simplesamlphp_version }}/metadata/saml20-idp-hosted.php"
+
+  - name: Configure SimpleSAMLphp SP
+    copy:
+      src: files/simplesaml/saml20-sp-remote.php
+      dest: "/var/simplesamlphp-{{ simplesamlphp_version }}/metadata/saml20-sp-remote.php"
+
+  - name: Configure Apache for simpleSAMLphp
+    template:
+      src: files/simplesaml.conf.j2
+      dest: /etc/httpd/conf.d/bridge.conf
+    notify:
+    - httpd_restart
+
+  handlers:
+  - name: httpd_restart
+    service: name=httpd state=restarted
+    become: yes
