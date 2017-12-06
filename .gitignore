@@ -1,3 +1,6 @@
+# Certs
+files/ssl
+
 # Ansible
 *.retry
 hosts.ini

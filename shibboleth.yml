@@ -1,0 +1,51 @@
+---
+- hosts: sso
+  become: yes
+
+  tasks:
+  - name: Add Shibboleth Repo
+    copy:
+      src: files/shibboleth.repo
+      dest: /etc/yum.repos.d/shibboleth.repo
+
+  - name: Install packages
+    package: name="{{ item }}" state=present
+    with_items:
+    - httpd
+    - shibboleth.x86_64
+    - shibboleth-embedded-ds
+
+  - name: Configure Shibboleth
+    template:
+      src: files/shibboleth2.xml.j2
+      dest: /etc/shibboleth/shibboleth2.xml
+    notify:
+    - shibd_restart
+    - httpd_restart
+
+  - name: Configure Shibboleth cert
+    copy:
+      src: files/ssl/server.crt
+      dest: /etc/shibboleth/sp-cert.pem
+    notify:
+    - shibd_restart
+
+  - name: Configure Shibboleth key
+    copy:
+      src: files/ssl/server.key
+      dest: /etc/shibboleth/sp-key.pem
+    notify:
+    - shibd_restart
+
+  - name: Start services
+    service: name="{{ item }}" state=started
+    with_items:
+    - shibd
+    - httpd
+
+  handlers:
+  - name: httpd_restart
+    service: name=httpd state=restarted
+
+  - name: shibd_restart
+    service: name=shibd state=restarted
