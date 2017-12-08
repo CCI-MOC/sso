@@ -47,17 +47,31 @@
     docker_image:
       name: jboss/keycloak
 
+  - name: Pull the MOC theme
+    git:
+      repo: 'https://github.com/knikolla/keycloak-theme-moc.git'
+      dest: /root/keycloak-theme-moc
+
+  - name: Set context on theme files
+    file:
+      path: /root/keycloak-theme-moc
+      setype: svirt_sandbox_file_t
+      recurse: yes
+
   - name: Re-create a keycloak container
     docker_container:
       name: keycloak
       image: jboss/keycloak
       state: started
-      recreate: yes
+      recreate: no
       network_mode: host
       command: >
         --server-config=standalone-ha.xml \
         -b 0.0.0.0 \
         -Djboss.bind.address.private="{{ ansible_tapsso.ipv4.address }}"
+      volumes:
+      - /root/keycloak-theme-moc/moc:/opt/jboss/keycloak/themes/moc
+      - /root/keycloak-theme-moc/moc-base:/opt/jboss/keycloak/themes/moc-base
       env:
         PROXY_ADDRESS_FORWARDING: true
         MYSQL_DATABASE: keycloak
