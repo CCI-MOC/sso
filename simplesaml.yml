@@ -33,10 +33,10 @@
     notify:
     - httpd_restart
 
-  - name: Enable example auth methods
-    file:
-      path: "/var/simplesamlphp-{{ simplesamlphp_version }}/modules/exampleauth/enable"
-      state: touch
+  - name: Enable example auth module
+    copy:
+      src: files/empty
+      dest: "/var/simplesamlphp-{{ simplesamlphp_version }}/modules/exampleauth/enable"
       setype: httpd_sys_content_t
 
   - name: Configure SimpleSAMLphp
@@ -65,6 +65,11 @@
       dest: /etc/httpd/conf.d/bridge.conf
     notify:
     - httpd_restart
+
+  - name: "Copy info file [TODO: REMOVE AFTER TESTING INCOMMON]"
+    copy:
+      src: files/info.php
+      dest: "/var/simplesamlphp-{{ simplesamlphp_version }}/www/info.php"
 
   handlers:
   - name: httpd_restart

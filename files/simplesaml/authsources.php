@@ -10,11 +10,10 @@ $config = array(
         'core:AdminPassword',
     ),
 
-
     'env-static' => array(
         'exampleauth:Static',
-        'uid' => array('testuser'),
-        'eduPersonAffiliation' => array('member', 'employee'),
-        'cn' => array('Test User'),
+        'uid' => array(getenv('eppn')),
+        'eduPersonPrincipalName' => array(getenv('eppn')),
+        'mail' => array(getenv('eppn')),
     ),
 );

@@ -4,6 +4,8 @@
  *
  */
 
+ini_set('memory_limit', '1024M');
+
 $config = array(
 
     /*******************************
@@ -28,7 +30,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => 'https://sso.massopen.cloud/incommon/bridge',
+    'baseurlpath' => 'https://sso.massopen.cloud/incommon',
 
     /*
      * The 'application' configuration array groups a set configuration options
@@ -107,7 +109,7 @@ $config = array(
      * metadata listing and diagnostics pages.
      * You can also put a hash here; run "bin/pwgen.php" to generate one.
      */
-    'auth.adminpassword' => '123',
+    'auth.adminpassword' => "GA?'PBb$49d'fMRrmuu_",
 
     /*
      * Set this options to true if you want to require administrator password to access the web interface
@@ -884,6 +886,10 @@ $config = array(
      | METADATA CONFIGURATION |
      **************************/
 
+    'metadata.sources' => array(
+        array('type' => 'flatfile'),
+    ),
+
     /*
      * This option configures the metadata sources. The metadata sources is given as an array with
      * different metadata sources. When searching for metadata, SimpleSAMLphp will search through
@@ -932,7 +938,7 @@ $config = array(
      *
      * This example defines two flatfile sources. One is the default metadata directory, the other
      * is a metadata directory with auto-generated metadata files.
-     *
+     
      * 'metadata.sources' => array(
      *     array('type' => 'flatfile'),
      *     array('type' => 'flatfile', 'directory' => 'metadata-generated'),
@@ -964,9 +970,6 @@ $config = array(
      *     array('type' => 'flatfile')
      * ),
      */
-    'metadata.sources' => array(
-        array('type' => 'flatfile'),
-    ),
 
     /*
      * Should signing of generated metadata be enabled by default.
