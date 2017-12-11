@@ -15,6 +15,28 @@
     - shibboleth.x86_64
     - shibboleth-embedded-ds
 
+  - name: Configure Disocvery service [1/3]
+    copy:
+      src: files/shibboleth-ds/idpselect_config.js
+      dest: /etc/shibboleth-ds/idpselect_config.js
+
+  - name: Configure Disocvery service [2/3]
+    copy:
+      src: files/shibboleth-ds/idpselect.css
+      dest: /etc/shibboleth-ds/idpselect.css
+
+  - name: Configure Disocvery service [2/3]
+    copy:
+      src: files/shibboleth-ds/index.html
+      dest: /etc/shibboleth-ds/index.html
+
+  - name: Enable Discovery service
+    copy:
+      src: files/shibboleth-ds.conf
+      dest: /etc/httpd/conf.d/shibboleth-ds.conf
+    notify:
+    - httpd_restart
+
   - name: Configure Shibboleth
     template:
       src: files/shibboleth2.xml.j2
