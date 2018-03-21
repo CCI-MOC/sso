@@ -3,20 +3,20 @@
   become: yes
 
   tasks:
-  # - name: Install PHP
-  #   package: name="{{ item }}" state=present
-  #   with_items:
-  #   - php
-  #   - php-openssl
-  #   - php-mbstring
-  #   - php-json
-  #   - php-hash
-  #   - php-date
-  #   - php-dom
-  #   - php-pcre
-  #   - php-zlib
-  #   notify:
-  #   - httpd_restart
+  - name: Install PHP
+    package: name="{{ item }}" state=present
+    with_items:
+    - php
+    - php-openssl
+    - php-mbstring
+    - php-json
+    - php-hash
+    - php-date
+    - php-dom
+    - php-pcre
+    - php-zlib
+    notify:
+    - httpd_restart
 
   - name: Install simpleSAMLphp
     unarchive:
@@ -66,10 +66,17 @@
     notify:
     - httpd_restart
 
-  - name: "Copy info file [TODO: REMOVE AFTER TESTING INCOMMON]"
+  - name: Copy info file for testing
     copy:
       src: files/info.php
       dest: "/var/simplesamlphp-{{ simplesamlphp_version }}/www/info.php"
+    when: !production
+
+  - name: Ensure no info file
+    file:
+      src: "/var/simplesamlphp-{{ simplesamlphp_version }}/www/info.php"
+      state: absent
+    when: production
 
   handlers:
   - name: httpd_restart
