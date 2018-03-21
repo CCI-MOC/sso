@@ -3,5 +3,10 @@
 192.168.0.2 ansible_user=centos
 
 [sso:vars]
+production=false
+shibboleth_entity_id="https://sso.massopen.cloud/incommon"
+shibboleth_discovery_url="https://sso.massopen.cloud/shibboleth-ds/index.html"
 db_password="DB PASS"
 password="KEYCLOAK ADMIN PASS"
+
+simple_saml_php_version="1.15" ?

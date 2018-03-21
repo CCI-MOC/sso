@@ -5,11 +5,11 @@
     xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
     clockSkew="180">
 
-    <ApplicationDefaults entityID="https://sso.massopen.cloud/incommon" REMOTE_USER="eppn persistent-id targeted-id">
+    <ApplicationDefaults entityID="{{ shibboleth_entity_id }}" REMOTE_USER="eppn persistent-id targeted-id">
 
         <Sessions lifetime="28800" timeout="3600" relayState="ss:mem" checkAddress="false" handlerSSL="true" cookieProps="https">
 
-            <SSO discoveryProtocol="SAMLDS" discoveryURL="https://sso.massopen.cloud/shibboleth-ds/index.html">
+            <SSO discoveryProtocol="SAMLDS" discoveryURL="{{ shibboleth_discovery_url }}">
                 SAML2 SAML1
             </SSO>
 
@@ -100,23 +100,17 @@
             attributeName="http://macedir.org/entity-category"
             attributeNameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"
             attributeValue="http://refeds.org/category/hide-from-discovery"/>
-
         </MetadataProvider>
 
-        <!-- Attribute and trust options you shouldn't need to change. -->
         <AttributeExtractor type="XML" validate="true" path="attribute-map.xml"/>
         <AttributeResolver type="Query" subjectMatch="true"/>
         <AttributeFilter type="XML" validate="true" path="attribute-policy.xml"/>
 
-        <!-- Your SP generated these credentials.  They're used to talk to IdP's. -->
         <CredentialResolver type="File" key="sp-key.pem" certificate="sp-cert.pem"/>
 
     </ApplicationDefaults>
 
-    <!-- Security policies you shouldn't change unless you know what you're doing. -->
     <SecurityPolicyProvider type="XML" validate="true" path="security-policy.xml"/>
-
-    <!-- Low-level configuration about protocols and bindings available for use. -->
     <ProtocolProvider type="XML" validate="true" reloadChanges="false" path="protocols.xml"/>
 
 </SPConfig>
