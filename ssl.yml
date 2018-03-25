@@ -1,0 +1,34 @@
+---
+- hosts: sso
+  become: yes
+
+  vars:
+  - tls_cert: "/etc/letsencrypt/live/{{ domain }}/cert.pem"
+  - tls_key: "/etc/letsencrypt/live/{{ domain }}/privkey.pem"
+  - tls_ca: "/etc/letsencrypt/live/{{ domain }}/chain.pem"
+
+  tasks:
+  - name: Install HTTPD
+    package: name="{{ item }}" state=present
+    with_items:
+    - httpd
+    - mod_ssl
+    - openssl
+
+  - name: Configure TLS
+    template:
+      src: files/ssl.conf.j2
+      dest: /etc/httpd/conf.d/ssl.conf
+    notify:
+    - httpd_restart
+
+  - name: Start and enable HTTPD
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+
+  handlers:
+  - name: httpd_restart
+    service: name=httpd state=restarted
+    become: yes

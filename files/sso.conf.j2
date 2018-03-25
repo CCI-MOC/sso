@@ -1,8 +1,8 @@
-ServerName sso.nikolla.me
+ServerName {{ domain }}
 
 ProxyPreserveHost On
 
-RedirectMatch ^/$ https://sso.massopen.cloud/auth
+RedirectMatch ^/$ https://{{ domain }}/auth
 ProxyPass /auth http://localhost:8080/auth
 ProxyPassReverse /auth http://localhost:8080/auth
 
@@ -16,7 +16,7 @@ RemoteIPHeader X-Forwarded-For
 # The location of the HTML files, and access control information
 DocumentRoot /var/www
 <Directory /var/www>
-Options -Indexes
-Order allow,deny
-Allow from all
+    Options -Indexes
+    Order allow,deny
+    Allow from all
 </Directory>
