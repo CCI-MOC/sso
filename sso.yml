@@ -8,27 +8,13 @@
     with_items:
     - docker
     - python-docker-py
-    - httpd
-    - mod_ssl
-    - openssl
+    - git
 
   - name: Allow Apache to connect to Keycloak
     seboolean:
       name: httpd_can_network_relay
       state: yes
       persistent: yes
-
-  - name: Configure Apache Proxy
-    copy:
-      src: files/ssl
-      dest: /etc/httpd/
-
-  - name: Configure Apache SSL
-    template:
-      src: files/ssl.conf.j2
-      dest: /etc/httpd/conf.d/ssl.conf
-    notify:
-    - httpd_restart
 
   - name: Configure Apache Proxy
     template:
@@ -45,7 +31,7 @@
 
   - name: Pull the Keycloak image
     docker_image:
-      name: jboss/keycloak
+      name: "jboss/keycloak:{{ keycloak_version }}"
 
   - name: Pull the MOC theme
     git:
@@ -69,7 +55,7 @@
       command: >
         -c standalone-ha.xml \
         -b 0.0.0.0 \
-        -Djboss.bind.address.private="{{ ansible_tapsso.ipv4.address }}"
+        -Djboss.bind.address.private="{{ ansible_eth0.ipv4.address }}"
       volumes:
       - /root/keycloak-theme-moc/moc:/opt/jboss/keycloak/themes/moc
       - /root/keycloak-theme-moc/moc-base:/opt/jboss/keycloak/themes/moc-base
