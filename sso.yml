@@ -32,6 +32,7 @@
   - name: Pull the Keycloak image
     docker_image:
       name: "jboss/keycloak:{{ keycloak_version }}"
+    tags: container
 
   - name: Pull the MOC theme
     git:
