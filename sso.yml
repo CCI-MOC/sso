@@ -61,26 +61,30 @@
   - name: Re-create a keycloak container
     docker_container:
       name: keycloak
-      image: jboss/keycloak
+      image: jboss/keycloak:4.8.3.Final
       state: started
-      recreate: no
+      restart: yes
+      recreate: yes
       network_mode: host
       command: >
-        --server-config=standalone-ha.xml \
+        -c standalone-ha.xml \
         -b 0.0.0.0 \
         -Djboss.bind.address.private="{{ ansible_tapsso.ipv4.address }}"
       volumes:
       - /root/keycloak-theme-moc/moc:/opt/jboss/keycloak/themes/moc
       - /root/keycloak-theme-moc/moc-base:/opt/jboss/keycloak/themes/moc-base
       env:
-        PROXY_ADDRESS_FORWARDING: true
-        MYSQL_DATABASE: keycloak
-        MYSQL_USER: keycloak
-        MYSQL_PASSWORD: "{{ db_password }}"
-        MYSQL_PORT_3306_TCP_ADDR: "127.0.0.1"
-        MYSQL_PORT_3306_TCP_PORT: 3306
+        PROXY_ADDRESS_FORWARDING: "true"
+        DB_VENDOR: mariadb
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
+        DB_PASSWORD: "{{ db_password }}"
+        DB_ADDR: "127.0.0.1"
+        DB_PORT: "3306"
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: "{{ password }}"
+        JAVA_OPTS: "-server -Xms128m -Xmx1024m -XX:MetaspaceSize=128M -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true"
+    tags: run
 
   handlers:
   - name: httpd_restart
