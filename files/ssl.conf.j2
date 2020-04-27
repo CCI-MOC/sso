@@ -1,9 +1,0 @@
-Listen 443 https
-
-<VirtualHost _default_:443>
-    SSLEngine on
-    SSLCertificateFile {{ tls_cert }}
-    SSLCertificateKeyFile {{ tls_key }}
-    SSLCertificateChainFile {{ tls_ca }}
-    SSLCipherSuite HIGH:+MEDIUM:!SSLv2:!EXP:!ADH:!aNULL:!eNULL:!NULL
-</VirtualHost>
