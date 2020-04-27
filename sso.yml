@@ -7,6 +7,8 @@
     package: name="{{ item }}" state=present
     with_items:
     - docker
+    - docker-compose
+    - httpd
     - python-docker-py
     - git
 
@@ -29,49 +31,13 @@
     - docker
     - httpd
 
-  - name: Pull the Keycloak image
-    docker_image:
-      name: "jboss/keycloak:{{ keycloak_version }}"
-    tags: container
+  - name: Ensures /root/sso dir exists
+    file: path=/root/sso state=directory
 
-  - name: Pull the MOC theme
-    git:
-      repo: 'https://github.com/knikolla/keycloak-theme-moc.git'
-      dest: /root/keycloak-theme-moc
-
-  - name: Set context on theme files
-    file:
-      path: /root/keycloak-theme-moc
-      setype: svirt_sandbox_file_t
-      recurse: yes
-
-  - name: Re-create a keycloak container
-    docker_container:
-      name: keycloak
-      image: jboss/keycloak:4.8.3.Final
-      state: started
-      restart: yes
-      recreate: yes
-      network_mode: host
-      command: >
-        -c standalone-ha.xml \
-        -b 0.0.0.0 \
-        -Djboss.bind.address.private="{{ ansible_eth0.ipv4.address }}"
-      volumes:
-      - /root/keycloak-theme-moc/moc:/opt/jboss/keycloak/themes/moc
-      - /root/keycloak-theme-moc/moc-base:/opt/jboss/keycloak/themes/moc-base
-      env:
-        PROXY_ADDRESS_FORWARDING: "true"
-        DB_VENDOR: mariadb
-        DB_DATABASE: keycloak
-        DB_USER: keycloak
-        DB_PASSWORD: "{{ db_password }}"
-        DB_ADDR: "127.0.0.1"
-        DB_PORT: "3306"
-        KEYCLOAK_USER: admin
-        KEYCLOAK_PASSWORD: "{{ password }}"
-        JAVA_OPTS: "-server -Xms128m -Xmx1024m -XX:MetaspaceSize=128M -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true"
-    tags: run
+  - name: Copy docker-compose.yml to /root/sso
+    template:
+      src: files/docker-compose.yml.j2
+      dest: /root/sso/docker-compose.yml
 
   handlers:
   - name: httpd_restart

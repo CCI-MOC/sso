@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  keycloak-moc:
+    image: massopencloud/keycloak-moc:r1
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: "{{ password }}"
+      DB_VENDOR: mariadb
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: "{{ db_password }}"
+      DB_ADDR: "{{ docker_host_ip }}"
+      DB_PORT: "3306"
+    ports:
+      - "8080:8080"  # host:container
+      - "8443:8443"
+    network_mode: host
+    command: >
+      -c standalone-ha.xml \
+      -b 0.0.0.0
+      -Djboss.bind.address.private="{{ ansible_eth0.ipv4.address }}"
