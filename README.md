@@ -49,3 +49,6 @@ them.
 We're not currently using any of the authorization features of Keycloak. All
 permissions are persisted in the various end systems and Keycloak is only for
 authentication.
+
+## Integrations
+- [OpenStack](docs/integration-openstack.md)
