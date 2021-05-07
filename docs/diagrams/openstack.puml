@@ -17,8 +17,8 @@ Keycloak -> User: Identity provider selection page
 User -> Keycloak: Selected "University Login"
 Keycloak --> User: 303 https://cilogon.org/authorize?scope=openid+email+profile+org.cilogon.userinfo&state=xxx&response_type=code&client_id=xxx&nonce=xxx\n\
 &**redirect_uri=https://sso.massopen.cloud/auth/realms/moc/broker/cilogon/endpoint**
-User -> IdP: Follows redirect via GET, selects identity provider, and authenticates
-IdP -> User: 302 https://sso.massopen.cloud/auth/realms/moc/broker/cilogon/endpoint?**code=xxx**&state=xxx
+User -> Idp: Follows redirect via GET, selects identity provider, and authenticates
+Idp -> User: 302 https://sso.massopen.cloud/auth/realms/moc/broker/cilogon/endpoint?**code=xxx**&state=xxx
 User -> Keycloak: Follows redirect via GET
 Keycloak --> User: 302 https://kaizen.massopen.cloud:13000/v3/auth/OS-FEDERATION/websso/openid#state=xxx&session_state=xxx&**id_token=xxx**
 User -> Apache: Follows redirect via GET
