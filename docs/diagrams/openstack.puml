@@ -1,0 +1,57 @@
+@startuml openstack-authn-sequence
+skinparam responseMessageBelowArrow true
+
+actor User
+participant Horizon
+participant Apache
+participant Keystone
+participant Keycloak
+participant "Identity Provider" as Idp
+
+User -> Horizon: POST https://kaizen.massopen.cloud/dashboard/auth/login
+Horizon --> User: 302 https://kaizen.massopen.cloud:13000/v3/auth/OS-FEDERATION/identity_providers/moc/protocols/openid/websso\n?**origin=https://kaizen.massopen.cloud/dashboard/auth/websso/**
+User -> Apache: Follows redirect via GET
+Apache --> User: 302 https://sso.massopen.cloud/auth/realms/moc/protocol/openid-connect/auth?\nresponse_type=id_token&scope=openid%20email%20profile&client_id=kaizen&state=xxx&nonce=xxx\n&**redirect_uri=https://kaizen.massopen.cloud:13000/v3/auth/OS-FEDERATION/websso/openid**
+User -> Keycloak: Follows redirect via GET
+Keycloak -> User: Identity provider selection page
+User -> Keycloak: Selected "University Login"
+Keycloak --> User: 303 https://cilogon.org/authorize?scope=openid+email+profile+org.cilogon.userinfo&state=xxx&response_type=code&client_id=xxx&nonce=xxx\n\
+&**redirect_uri=https://sso.massopen.cloud/auth/realms/moc/broker/cilogon/endpoint**
+User -> IdP: Follows redirect via GET, selects identity provider, and authenticates
+IdP -> User: 302 https://sso.massopen.cloud/auth/realms/moc/broker/cilogon/endpoint?**code=xxx**&state=xxx
+User -> Keycloak: Follows redirect via GET
+Keycloak --> User: 302 https://kaizen.massopen.cloud:13000/v3/auth/OS-FEDERATION/websso/openid#state=xxx&session_state=xxx&**id_token=xxx**
+User -> Apache: Follows redirect via GET
+Apache -> Keystone: Parses id_token into ENV
+Keystone -> Keystone: Parses ENV into user based on mapping\nCreates user if needed
+Keystone -> User: 200 OK, sends the user via POST Form to Horizon
+User -> Horizon: POST https://kaizen.massopen.cloud/dashboard/auth/websso/\nFORM DATA: **token: xxx**
+Horizon -> User: 302 https://kaizen.massopen.cloud/dashboard/
+User -> Horizon: Authentication is succesful, dashboard logs user into project
+@enduml
+
+
+@startuml openstack-authz-component
+actor User
+actor Admin
+package Adjutant {
+    [Adjutant Dashboard] as Dashboard
+    [Adjutant Service] as Service
+}
+package OpenStack {
+    [Keystone] as Keystone
+    [Nova] as Nova
+    [Neutron] as Neutron
+}
+
+User --> Dashboard
+
+Admin --> Dashboard
+
+Dashboard --> Service
+
+Service --> Keystone
+Service --> Nova
+Service --> Neutron
+
+@enduml

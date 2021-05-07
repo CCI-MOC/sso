@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="441px" preserveAspectRatio="none" style="width:417px;height:441px;background:#FFFFFF;" version="1.1" viewBox="0 0 417 441" width="417px" zoomAndPan="magnify"><defs><filter height="300%" id="f18ccf3m9d5usd" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[782a60e0dc47527185746dab8e59f3c8]
+cluster Adjutant--><polygon fill="#FFFFFF" filter="url(#f18ccf3m9d5usd)" points="95,110.5,173,110.5,180,132.7969,311,132.7969,311,313.5,95,313.5,95,110.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="95" x2="180" y1="132.7969" y2="132.7969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="72" x="99" y="125.4951">Adjutant</text><!--MD5=[e53cf7930f3ab044254d37236a748714]
+cluster OpenStack--><polygon fill="#FFFFFF" filter="url(#f18ccf3m9d5usd)" points="16,337.5,109,337.5,116,359.7969,400,359.7969,400,434.5,16,434.5,16,337.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="16" x2="116" y1="359.7969" y2="359.7969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="87" x="20" y="352.4951">OpenStack</text><!--MD5=[63cd45bfe8ce5232e0cf4e791771f97b]
+entity Dashboard--><rect fill="#FEFECE" filter="url(#f18ccf3m9d5usd)" height="46.2969" style="stroke:#A80036;stroke-width:1.5;" width="183" x="111.5" y="145.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="274.5" y="150.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="272.5" y="152.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="272.5" y="156.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="143" x="126.5" y="178.4951">Adjutant Dashboard</text><!--MD5=[17737e49c286898813382e12d6080e03]
+entity Service--><rect fill="#FEFECE" filter="url(#f18ccf3m9d5usd)" height="46.2969" style="stroke:#A80036;stroke-width:1.5;" width="159" x="123.5" y="251.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="262.5" y="256.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="260.5" y="258.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="260.5" y="262.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="119" x="138.5" y="284.4951">Adjutant Service</text><!--MD5=[1efe831e7da3b9b03f2cb11fffcf97ab]
+entity Keystone--><rect fill="#FEFECE" filter="url(#f18ccf3m9d5usd)" height="46.2969" style="stroke:#A80036;stroke-width:1.5;" width="108" x="276" y="372.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="364" y="377.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="362" y="379.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="362" y="383.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="68" x="291" y="405.4951">Keystone</text><!--MD5=[6915411bec7515d299add6c570d24697]
+entity Nova--><rect fill="#FEFECE" filter="url(#f18ccf3m9d5usd)" height="46.2969" style="stroke:#A80036;stroke-width:1.5;" width="75" x="165.5" y="372.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="220.5" y="377.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="218.5" y="379.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="218.5" y="383.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="35" x="180.5" y="405.4951">Nova</text><!--MD5=[6cdfb2671d688b3a39e3f10254766fa1]
+entity Neutron--><rect fill="#FEFECE" filter="url(#f18ccf3m9d5usd)" height="46.2969" style="stroke:#A80036;stroke-width:1.5;" width="98" x="32" y="372.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="110" y="377.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="108" y="379.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="108" y="383.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58" x="47" y="405.4951">Neutron</text><!--MD5=[fee662a292a0353a69bd162820bae93b]
+entity User--><ellipse cx="166" cy="14" fill="#FEFECE" filter="url(#f18ccf3m9d5usd)" rx="8" ry="8" style="stroke:#A80036;stroke-width:1.5;"/><path d="M166,22 L166,49 M153,30 L179,30 M166,49 L153,64 M166,49 L179,64 " fill="none" filter="url(#f18ccf3m9d5usd)" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="31" x="150.5" y="82.4951">User</text><!--MD5=[97ab183161fd5d1db7fba7485cf76add]
+entity Admin--><ellipse cx="240" cy="14" fill="#FEFECE" filter="url(#f18ccf3m9d5usd)" rx="8" ry="8" style="stroke:#A80036;stroke-width:1.5;"/><path d="M240,22 L240,49 M227,30 L253,30 M240,49 L227,64 M240,49 L253,64 " fill="none" filter="url(#f18ccf3m9d5usd)" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="46" x="217" y="82.4951">Admin</text><!--MD5=[ec5aa844e0996a852005bc823506b91e]
+link User to Dashboard--><path d="M178.115,85.784 C183.578,103.722 189.887,124.439 194.785,140.525 " fill="none" id="User-to-Dashboard" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="196.258,145.361,197.4641,135.5863,194.8021,140.5776,189.8108,137.9157,196.258,145.361" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[50d288d3f7e002eddb13069a1f01076d]
+link Admin to Dashboard--><path d="M227.885,85.784 C222.422,103.722 216.113,124.439 211.215,140.525 " fill="none" id="Admin-to-Dashboard" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="209.742,145.361,216.1892,137.9157,211.1979,140.5776,208.5359,135.5863,209.742,145.361" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[e7c10dee5a2ac2a6716cf69412020fdc]
+link Dashboard to Service--><path d="M203,191.556 C203,207.55 203,229.278 203,246.342 " fill="none" id="Dashboard-to-Service" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="203,251.476,207,242.476,203,246.476,199,242.476,203,251.476" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[ace1700920fd3044b5fcc0f5938d209e]
+link Service to Keystone--><path d="M226.59,297.604 C248.018,317.682 279.643,347.315 302.272,368.5186 " fill="none" id="Service-to-Keystone" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="306.105,372.1105,302.2723,363.038,302.4563,368.6918,296.8025,368.8758,306.105,372.1105" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[8e749ded2b73db7e1ad93eae756e52a6]
+link Service to Nova--><path d="M203,297.604 C203,317.185 203,345.851 203,366.9262 " fill="none" id="Service-to-Nova" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="203,372.1105,207,363.1105,203,367.1105,199,363.1105,203,372.1105" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[7d81e171be7593b544f6bccbc1f6788a]
+link Service to Neutron--><path d="M180.339,297.604 C159.754,317.682 129.375,347.315 107.636,368.5186 " fill="none" id="Service-to-Neutron" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="103.954,372.1105,113.1896,368.6895,107.5332,368.6192,107.6035,362.9627,103.954,372.1105" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[fddf238701d73d210439bdc4520e73eb]
+@startuml
+actor User
+actor Admin
+package Adjutant {
+    [Adjutant Dashboard] as Dashboard
+    [Adjutant Service] as Service
+}
+package OpenStack {
+    [Keystone] as Keystone
+    [Nova] as Nova
+    [Neutron] as Neutron
+}
+
+User - -> Dashboard
+
+Admin - -> Dashboard
+
+Dashboard - -> Service
+
+Service - -> Keystone
+Service - -> Nova
+Service - -> Neutron
+@enduml
+
+PlantUML version 1.2021.6beta6(Unknown compile time)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
