@@ -1,0 +1,36 @@
+@startuml nerc-coldfront-authn-sequence
+skinparam responseMessageBelowArrow true
+
+actor User
+participant ColdFront
+participant Keycloak
+
+User -> ColdFront: login
+ColdFront --> User: 302 login at keycloak
+User -> Keycloak: login
+Keycloak --> User: 302 continue at coldfront
+User -> ColdFront: manage projects
+@enduml
+
+@startuml nerc-coldfront-authz-project-sequence
+skinparam responseMessageBelowArrow true
+
+actor PI
+actor Admin
+participant ColdFront
+participant Keystone
+participant Nova
+participant Cinder
+participant Neutron
+
+PI -> ColdFront: new Resource Allocation
+Admin -> ColdFront: approve Resource Allocation
+ColdFront -> Keystone: Create new project
+ColdFront -> Nova: Set quota based on resource allocation attributes
+ColdFront -> Cinder: Set quota based on resource allocation attributes
+ColdFront -> Neutron: Set quota based on resource allocation attributes
+ColdFront -> Neutron: Create default networking objects, if enabled
+ColdFront -> Keystone: Check if user exists, create if it doesn't
+ColdFront -> Keystone: Add user to project
+
+@enduml
