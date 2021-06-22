@@ -20,3 +20,4 @@ services:
       -c standalone-ha.xml \
       -b 0.0.0.0
       -Djboss.bind.address.private="{{ ansible_eth0.ipv4.address }}"
+    restart: unless-stopped
