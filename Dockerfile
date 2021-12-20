@@ -1,4 +1,4 @@
-FROM jboss/keycloak:15.0.2
+FROM jboss/keycloak:16.0.0
 
 ENV PROXY_ADDRESS_FORWARDING true
 
